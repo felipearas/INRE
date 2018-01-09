@@ -253,7 +253,7 @@ class Window(Frame):
 
         self.scroll.add(self.scroll_2, text='Orçamento')
 
-        Button(self.scroll_2,text="")
+        self.createOrcamento()
 
         self.scroll.add(self.scroll_3, text='Mudança')
 
@@ -305,9 +305,48 @@ class Window(Frame):
 
                 Label(self.scroll_1,text="Cliente não registrado",font=fonteC)
 
-    #def createOrc(self):
+    def createOrcamento(self):
+
+        v = tk.IntVar()
+
+        Label(self.scroll_2, text="Esvaziamento", padx = 20,pady=20).grid(row=0,column=0)
+        Radiobutton(self.scroll_2,text="Com movéis grandes",padx = 20,pady=20,variable=v,value=1).grid(row=0,column=1)
+        Radiobutton(self.scroll_2,text="Sem movéis grandes",padx = 20,pady=20,variable=v,value=2).grid(row=0,column=2)
+
+        scrollbar = Scrollbar(self.scroll_2)
+        scrollbar.grid(row=3,column=1)
+
+        Label(self.scroll_2,text="Lista de equipamentos").grid(row=2,column=0)
+
+        self.mylist = Listbox(self.scroll_2,yscrollcommand=scrollbar.set,width=40)
+        self.mylist.insert(1, "Equipamentos                         M3")
+
+        Button(self.scroll_2,text="ADD",command=self.CurSelet).grid(row=5,column=1)
+
+        self.mylist.grid(row=3,column=0)
+        scrollbar.config(command=self.mylist.yview)
+
+        self.mylist1 = Listbox(self.scroll_2,yscrollcommand=scrollbar.set,width=40)
+        self.mylist1.grid(row=3,column=2)
+        Label(self.scroll_2,text="Lista de equipamentos adicionados").grid(row=2,column=2)
+
+        self.qnt = Entry(self.scroll_2)
+        self.qnt.grid(row=4,column=1)
+
+    #def addEquipamento(self):
 
 
+    def CurSelet(self):
+
+        self.getQnt()
+
+        value = str(self.mylist.get(self.mylist.curselection()))
+        for i in range(0,int(self.qnt.new)):
+            self.mylist1.insert(END,value)
+
+    def getQnt(self):
+
+        self.qnt.new = self.qnt.get()
         
     def showMudanca(self):
 
@@ -460,7 +499,6 @@ class Window(Frame):
         fraseU = Label(self.scroll_5, text="Forma de contato")
         fraseU.grid(row=15,column=0)
 
-
     def showPreCliente(self):
 
         self.master.destroy()
@@ -475,7 +513,6 @@ class Window(Frame):
         self.pre.grid(row=1,column=0)
 
         Button(self.master,text="Verificar se existe no registro de clientes",command=self.verifyCliente).grid()
-
 
     def showImg(self):
         load = Image.open("a.png")
@@ -691,7 +728,6 @@ class Window(Frame):
         code = "{0}/2018".format(co)
 
         
-
 # Fontes
 
 fonteA = ("Verdana", 8)
